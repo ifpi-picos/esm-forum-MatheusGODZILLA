@@ -12,9 +12,17 @@ function reconfig_bd(mock_bd) {
 //   id_usuario: int
 //   num_respostas: int 
 // }
+let repositorio = null;
+
+function reconfig_repositorio(repo) {
+  repositorio = repo;
+}
+
 function listar_perguntas() {
-  const perguntas = bd.queryAll('select * from perguntas', []);
-  perguntas.forEach(pergunta => pergunta['num_respostas'] = get_num_respostas(pergunta['id_pergunta']));
+  const perguntas = repositorio.recuperar_todas_perguntas();
+  for (const p of perguntas) {
+    p.num_respostas = repositorio.recuperar_num_respostas(p.id_pergunta);
+  }
   return perguntas;
 }
 
